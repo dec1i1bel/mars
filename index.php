@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>onMars</title>
+    <title>mars</title>
     <script src="libs/jquery-3.5.1.min.js"></script>
     <script src="libs/bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="libs/fancybox3/dist/jquery.fancybox.min.js"></script>
