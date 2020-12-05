@@ -14,7 +14,9 @@ $(document).ready(function () {
         ph_num_large = 0,
         api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
     ;
-
+	
+	processTestCanvas();
+	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
         success: function (data) {
@@ -136,4 +138,44 @@ $(document).ready(function () {
             }
         })
     }
+	
+	var canvas, context;
+	
+	$('#test-canvas').click(function(e) {
+		pickTestColor(e);
+	});
+	
+	function processTestCanvas() {
+		let img = new Image();
+		img.src = 'img/test.jpg';
+		canvas = $('#test-canvas')[0];
+		context = canvas.getContext('2d');
+		img.onload = function() {
+			context.drawImage(img,0,0);
+		};
+	}
+	
+	function pickTestColor(e) {
+		let x = e.offsetX,
+			y = e.offsetY
+		;
+		console.log('event:');
+		console.log(e);
+		console.log('canvas:');
+		console.log(canvas);
+		console.log('x:');
+		console.log(x);
+		console.log('y:');
+		console.log(y);
+		console.log('context:');
+		console.log(context);
+		
+		let pixel = context.getImageData(x,y,1,1),
+			data = pixel.data
+		;
+		console.log('pixel:');
+		console.log(pixel);
+		console.log('data:');
+		console.log(data);
+	}
 });

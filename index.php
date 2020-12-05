@@ -18,6 +18,7 @@
 
 <body>
     <div class="container">
+       <canvas id="test-canvas" width="200" height="200" class="border"></canvas>
         <h1 class="rover-name">Марсоход: <span class="value"></span></h1>
         <h3 class="rover-sol">Суток пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
