@@ -154,7 +154,7 @@ $(document).ready(function () {
 			y = e.offsetY
 		;
 		context.fillStyle = "rgba(213,186,131,.05)";
-		context.fillRect(x,y,30,0);
+		context.fillRect(x,y,30,30);
 	}
 	
 	function setTestCanvasImg() {
