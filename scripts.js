@@ -15,7 +15,7 @@ $(document).ready(function () {
         api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
     ;
 	
-	setTestCanvas();
+	setTestCanvasImg();
 	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
@@ -153,10 +153,11 @@ $(document).ready(function () {
 		let x = e.offsetX,
 			y = e.offsetY
 		;
-		context.fillRect(x,y,5,5);
+		context.fillStyle = "rgba(213,186,131,.05)";
+		context.fillRect(x,y,30,0);
 	}
 	
-	function setTestCanvas() {
+	function setTestCanvasImg() {
 		let img = new Image();
 		img.src = 'img/test.jpg';
 		canvas = $('#test-canvas')[0];
