@@ -122,7 +122,7 @@ $(document).ready(function () {
     }
 
     function appendPhoto(i,img) {
-        $('#photos__page').append('<div class="card-deck"><div class="card"><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a><!--<div class="card-body"><select name="photo_' + i + '" class="form-control form-control-sm"><option value="novalue">---</option><option value="landscape">ландшафт</option><option value="rover">марсоход</option></select></div>--></div></div>');
+        $('#photos__page').append('<div class="card-deck"><div class="card"><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a>');
     }
     
 
