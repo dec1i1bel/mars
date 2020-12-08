@@ -9,13 +9,16 @@ $(document).ready(function () {
         attr_curdate = 'current_date'
     ;
     var showOnlyLargePhotos = false,
+		drawingMode = true,
         isLargeImg = true,
         ph_num_all = 0,
         ph_num_large = 0,
-        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
+        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886',
+		i,
+		img
     ;
 	
-	setTestCanvasImg();
+	setTestCanvasImg(); 
 	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
@@ -23,7 +26,7 @@ $(document).ready(function () {
             console.log(data.photo_manifest);
             let max_date = data.photo_manifest.max_date;
 
-            // шапка - общая статистика
+            // шапка - общая статистика 
             $('.rover-sol > .value').text(data.photo_manifest.max_sol);
             $(cl_ph_num).text(data.photo_manifest.total_photos);
             $(curdate).text(max_date);
@@ -33,6 +36,7 @@ $(document).ready(function () {
             $.ajax({
                 url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + max_date + '&api_key='+api_key,
                 success: function (data_latest) {
+					console.log(data_latest.photos);
                     renderAjaxImg(data_latest, max_date);
                 }
             });
@@ -84,32 +88,59 @@ $(document).ready(function () {
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
-            console.log('showOnlyLargePhotos');
-            console.log(showOnlyLargePhotos);
+			if(drawingMode) {
+				for(i = 0; i < ph.length; i++) {
+					let img = new Image();
+					img.src = ph[i].img_src;
+					img.onload = function() {
+						$('#photos__page').append('<canvas class="canvas_photo" width="400" height="400"></canvas>');
+						canvas = $('.canvas_photo').last()[0];
+						context = canvas.getContext('2d');
+						let j = i+1;
+						context.drawImage(img,0,0,400,400);
+						
+						$('.canvas_photo').last().mousemove(function(e) {
+							paintCanvas(e);
+						})
+					}
+				}
+//				$('.canvas_photo').each(function() {
+//					$(this).mousemove(function(e) {
+////						paintCanvas(e);
+//						console.log('helllllllllllo');
+//						let x = e.offsetX,
+//							y = e.offsetY
+//						;
+//						context.fillStyle = "rgba(213,186,131,.05)";
+//						context.fillRect(x,y,30,30);
+//					})
+//				})
+			} else {
+				for (i = 0; i < ph.length; i++) {
 
-            for (let i = 0; i < ph.length; i++) {
+					img = new Image();
+					img.src = ph[i].img_src;
+					img.onload = function () {
+						if (this.width < 1000) {
+							isLargeImg = false;
+						} else {
+							console.log('isLargeImg = true');
+							isLargeImg = true;
+							if(showOnlyLargePhotos) {
+								appendPhoto(i, ph[i].img_src);
+							}
+							ph_num_large++;
+						}
+							$('.quantity_large').text(ph_num_large);
+					}
+					if (!showOnlyLargePhotos) {
+						appendPhoto(i, ph[i].img_src);
+					}
 
-                img = new Image();
-                img.src = ph[i].img_src;
-                img.onload = function () {
-                    if (this.width < 1000) {
-                        isLargeImg = false;
-                    } else {
-                        console.log('isLargeImg = true');
-                        isLargeImg = true;
-                        if(showOnlyLargePhotos) {
-                            appendPhoto(i, ph[i].img_src);
-                        }
-                        ph_num_large++;
-                    }
-                        $('.quantity_large').text(ph_num_large);
-                }
-                if (!showOnlyLargePhotos) {
-                    appendPhoto(i, ph[i].img_src);
-                }
+					ph_num_all++;
+				}
+			}
 
-                ph_num_all++;
-            }
             $('.quantity_total').text(ph_num_all);
         } else {
             $(curdate).text(date);
@@ -150,6 +181,7 @@ $(document).ready(function () {
 	});
 	
 	function paintCanvas(e) {
+		console.log('paint canvas');
 		let x = e.offsetX,
 			y = e.offsetY
 		;

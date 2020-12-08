@@ -39,7 +39,8 @@
             <div class="mx-2 py-3">на 1 день</div>
             <button class="btn-next-day btn btn-outline-success">Вперёд</button>
         </div>
-        <div id="photos__page" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-center"></div>
+<!--        <div id="photos__page" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-center"></div>-->
+        <div id="photos__page"></div>
         <div class="btns_next-prev-date row justify-content-center">
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
             <div class="mx-2 py-3">на 1 день</div>
