@@ -18,16 +18,12 @@
 
 <body>
     <div class="container">
-       
         <h1 class="rover-name">Марсоход: <span class="value"></span></h1>
         <h3 class="rover-sol">Суток пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
         <p></p>
         <h2 class="rover-photos-title">Фото за <span class="value date"></span> (всего: <span class="value quantity_total"></span>, больших: <span class="value quantity_large"></span>)
         </h2>
-        <p>
-        <h4>Фильтры</h4>
-        </p>
         <div id="filters" class="js-filters">
             <div class="js-only-large">
                 <input type="checkbox" name="only-large">
@@ -39,8 +35,8 @@
             <div class="mx-2 py-3">на 1 день</div>
             <button class="btn-next-day btn btn-outline-success">Вперёд</button>
         </div>
-<!--        <div id="photos__page" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-center"></div>-->
-        <div id="photos__page"></div>
+       <div id="photos__page" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-center"></div>
+        <!-- <div id="photos__page"></div> -->
         <div class="btns_next-prev-date row justify-content-center">
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
             <div class="mx-2 py-3">на 1 день</div>

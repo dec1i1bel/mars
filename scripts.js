@@ -9,11 +9,12 @@ $(document).ready(function () {
         attr_curdate = 'current_date'
     ;
     var showOnlyLargePhotos = false,
-		drawingMode = true,
+		drawingMode = false,
         isLargeImg = true,
         ph_num_all = 0,
         ph_num_large = 0,
-        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
+        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886',
+        img
     ;
 	
     $.ajax({
@@ -84,58 +85,62 @@ $(document).ready(function () {
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
-			if(drawingMode) {
-				for(i = 0; i < ph.length; i++) {
-					let img = new Image();
-					img.src = ph[i].img_src;
-					img.onload = function() {
-						$('#photos__page').append('<canvas class="canvas_photo" width="400" height="400"></canvas>');
-						canvas = $('.canvas_photo').last()[0];
-						context = canvas.getContext('2d');
-						let j = i+1;
-						context.drawImage(img,0,0,400,400);
+			// if(drawingMode) {
+			// 	for(i = 0; i < ph.length; i++) {
+			// 		let img = new Image();
+			// 		img.src = ph[i].img_src;
+			// 		img.onload = function() {
+			// 			$('#photos__page').append('<canvas class="canvas_photo" width="400" height="400"></canvas>');
+			// 			canvas = $('.canvas_photo').last()[0];
+			// 			context = canvas.getContext('2d');
+			// 			let j = i+1;
+			// 			context.drawImage(img,0,0,400,400);
 						
-						$('.canvas_photo').last().mousemove(function(e) {
-							paintCanvas(e);
-						})
-					}
-				}
-//				$('.canvas_photo').each(function() {
-//					$(this).mousemove(function(e) {
-////						paintCanvas(e);
-//						console.log('helllllllllllo');
-//						let x = e.offsetX,
-//							y = e.offsetY
-//						;
-//						context.fillStyle = "rgba(213,186,131,.05)";
-//						context.fillRect(x,y,30,30);
-//					})
-//				})
-			} else {
-				for (i = 0; i < ph.length; i++) {
+					// 	$('.canvas_photo').last().mousemove(function(e) {
+					// 		paintCanvas(e);
+					// 	})
+				// 	}
+				// }
+                //				$('.canvas_photo').each(function() {
+                //					$(this).mousemove(function(e) {
+                ////						paintCanvas(e);
+                //						console.log('helllllllllllo');
+                //						let x = e.offsetX,
+                //							y = e.offsetY
+                //						;
+                //						context.fillStyle = "rgba(213,186,131,.05)";
+                //						context.fillRect(x,y,30,30);
+                //					})
+                //				})
+                            // } else {
+            for (i = 0; i < ph.length; i++) {
 
-					img = new Image();
-					img.src = ph[i].img_src;
-					img.onload = function () {
-						if (this.width < 1000) {
-							isLargeImg = false;
-						} else {
-							console.log('isLargeImg = true');
-							isLargeImg = true;
-							if(showOnlyLargePhotos) {
-								appendPhoto(i, ph[i].img_src);
-							}
-							ph_num_large++;
-						}
-							$('.quantity_large').text(ph_num_large);
-					}
-					if (!showOnlyLargePhotos) {
-						appendPhoto(i, ph[i].img_src);
-					}
+                img = new Image();
+                img.src = ph[i].img_src;
+                console.log('img.src:');
+                console.log(img.src);
+                img.onload = function () {
+                    console.log('this.src:');
+                    console.log(this.src);
+                    if (this.width < 1000) {
+                        isLargeImg = false;
+                    } else {
+                        // console.log('isLargeImg = true');
+                        isLargeImg = true;
+                        if(showOnlyLargePhotos) {
+                            // appendPhoto(i, ph[i].img_src);
+                            appendPhoto(i, this.src);
+                        }
+                        ph_num_large++;
+                    }
+                    $('.quantity_large').text(ph_num_large);
+                }
+                if (!showOnlyLargePhotos) {
+                    appendPhoto(i, ph[i].img_src);
+                }
 
-					ph_num_all++;
-				}
-			}
+                ph_num_all++;
+            }
 
             $('.quantity_total').text(ph_num_all);
         } else {
@@ -147,6 +152,12 @@ $(document).ready(function () {
             $(next_prev).last().hide();
         }
     }
+
+    // $('.canvas_photo').each(function () {
+    //     $(this).mousemove(function(e) {
+    //         paintCanvas($(this), e);
+    //     })
+    // })
 
     function appendPhoto(i,img) {
         $('#photos__page').append('<div class="card-deck"><div class="card"><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a>');
@@ -166,34 +177,36 @@ $(document).ready(function () {
         })
     }
 	
-	var canvas, context;
+	// var canvas, context;
 	
-	function paintCanvas(e) {
-		console.log('paint canvas');
-		let x = e.offsetX,
-			y = e.offsetY
-		;
-		context.fillStyle = "rgba(213,186,131,.05)";
-		context.fillRect(x,y,30,30);
-	}
+	// function paintCanvas($paintedImg,e) {
+	// 	console.log('paint canvas');
+	// 	let x = e.offsetX,
+	// 		y = e.offsetY
+    //     ;
+    //     let canvas = $paintedImg[0];
+    //     let context = canvas.getContext('2d');
+	// 	context.fillStyle = "rgba(213,186,131,.05)";
+	// 	context.fillRect(x,y,30,30);
+	// }
 	
-	function setTestCanvasImg() {
-		let img = new Image();
-		img.src = 'img/test.jpg';
-		canvas = $('#test-canvas')[0];
-		context = canvas.getContext('2d');
-		img.onload = function() {
-			context.drawImage(img,0,0);
-		};
-	}
+	// function setTestCanvasImg() {
+	// 	let img = new Image();
+	// 	img.src = 'img/test.jpg';
+	// 	canvas = $('#test-canvas')[0];
+	// 	context = canvas.getContext('2d');
+	// 	img.onload = function() {
+	// 		context.drawImage(img,0,0);
+	// 	};
+	// }
 	
-	function pickTestColor(e) {
-		let x = e.offsetX,
-			y = e.offsetY
-		;
-		let pixel = context.getImageData(x,y,1,1),
-			data = pixel.data
-		;
-		console.log(data);
-	}
+	// function pickTestColor(e) {
+	// 	let x = e.offsetX,
+	// 		y = e.offsetY
+	// 	;
+	// 	let pixel = context.getImageData(x,y,1,1),
+	// 		data = pixel.data
+	// 	;
+	// 	console.log(data);
+	// }
 });
