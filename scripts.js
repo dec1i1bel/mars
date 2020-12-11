@@ -13,12 +13,8 @@ $(document).ready(function () {
         isLargeImg = true,
         ph_num_all = 0,
         ph_num_large = 0,
-        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886',
-		i,
-		img
+        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
     ;
-	
-	setTestCanvasImg(); 
 	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
@@ -171,14 +167,6 @@ $(document).ready(function () {
     }
 	
 	var canvas, context;
-	
-	$('#test-canvas').mousemove(function(e) {
-		paintCanvas(e);
-	})
-	
-	$('#test-canvas').click(function(e) {
-		pickTestColor(e);
-	});
 	
 	function paintCanvas(e) {
 		console.log('paint canvas');
