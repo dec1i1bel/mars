@@ -9,13 +9,19 @@ $(document).ready(function () {
         attr_curdate = 'current_date'
     ;
     var showOnlyLargePhotos = false,
-		drawingMode = false,
+		drawingMode = true,
         isLargeImg = true,
         ph_num_all = 0,
         ph_num_large = 0,
         api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886',
         img
     ;
+
+    var canvas_config = new Map([
+        ['width', '600'],
+        ['height', '600']
+    ])
+
 	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
@@ -74,7 +80,7 @@ $(document).ready(function () {
     })
 
     function renderAjaxImg(data, date = '') {
-        $('#photos__page').html('');
+        $('#photos_page').html('');
         if (data.photos.length) {
 
             let ph = data.photos;
@@ -90,7 +96,7 @@ $(document).ready(function () {
 			// 		let img = new Image();
 			// 		img.src = ph[i].img_src;
 			// 		img.onload = function() {
-			// 			$('#photos__page').append('<canvas class="canvas_photo" width="400" height="400"></canvas>');
+			// 			$('#photos_page').append('<canvas class="canvas_photo" width="400" height="400"></canvas>');
 			// 			canvas = $('.canvas_photo').last()[0];
 			// 			context = canvas.getContext('2d');
 			// 			let j = i+1;
@@ -114,41 +120,67 @@ $(document).ready(function () {
                 //				})
                             // } else {
             for (i = 0; i < ph.length; i++) {
+                let img = new Image();
+                    img.src = ph[i].img_src;
 
-                img = new Image();
-                img.src = ph[i].img_src;
-                console.log('img.src:');
-                console.log(img.src);
-                img.onload = function () {
-                    console.log('this.src:');
-                    console.log(this.src);
-                    if (this.width < 1000) {
-                        isLargeImg = false;
-                    } else {
-                        // console.log('isLargeImg = true');
-                        isLargeImg = true;
-                        if(showOnlyLargePhotos) {
-                            // appendPhoto(i, ph[i].img_src);
-                            appendPhoto(i, this.src);
+                if (drawingMode) {
+                    console.log('ph[i].img_src:');
+                    console.log(ph[i].img_src);
+                    // renderCanvas();
+                    $('#photos_page').append('<canvas class="img_canvas" width="'+canvas_config.get('width')+'" height="'+canvas_config.get('height')+'"></canvas>');
+                    let canvas = $('.img_canvas').last()[0],
+                        context = canvas.getContext('2d');
+                    console.log('canvas:');
+                    console.log(canvas);
+                    img.onload = function() {
+                        context.drawImage(img,0,0,parseInt(canvas_config.get('width')),parseInt(canvas_config.get('height')));
+                    };
+                    // $('.img_canvas').last()
+                    // $('.img_canvas').last(function () {
+                    //     console.log('$(this)[0]:');
+                    //     console.log($(this)[0]);
+                    //     renderCanvasPhoto (ph[i].img_src, $(this));
+                    // })
+                } else {
+                    // img = new Image();
+                    // img.src = ph[i].img_src;
+                    // console.log('img.src:');
+                    // console.log(img.src);
+                    img.onload = function () {
+                        // console.log('this.src:');
+                        // console.log(this.src);
+                        if (this.width < 1000) {
+                            isLargeImg = false;
+                        } else {
+                            isLargeImg = true;
+                            if(showOnlyLargePhotos) {
+                                renderPhoto(this.src);
+                            }
+                            ph_num_large++;
                         }
-                        ph_num_large++;
+                        $('.quantity_large').text(ph_num_large);
                     }
-                    $('.quantity_large').text(ph_num_large);
-                }
-                if (!showOnlyLargePhotos) {
-                    appendPhoto(i, ph[i].img_src);
+                    if (!showOnlyLargePhotos) {
+                        renderPhoto(ph[i].img_src);
+                    }
                 }
 
                 ph_num_all++;
             }
 
             $('.quantity_total').text(ph_num_all);
+
+            // $('.img_canvas').each(function () {
+            //     $(this).mousemove(function (e) {
+                    
+            //     })
+            // })
         } else {
             $(curdate).text(date);
             $('.quantity_total').text('нет');
             $('.quantity_large').text('нет');
             $(next_prev).attr(attr_curdate, date);
-            $('#photos__page').html('');
+            $('#photos_page').html('');
             $(next_prev).last().hide();
         }
     }
@@ -159,10 +191,24 @@ $(document).ready(function () {
     //     })
     // })
 
-    function appendPhoto(i,img) {
-        $('#photos__page').append('<div class="card-deck"><div class="card"><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a>');
+    function renderPhoto(img) {
+        $('#photos_page').append('<div class="card-deck"><div class="card"><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a>');
     }
     
+    // function renderCanvas() {
+    //     $('#photos_page').append('<canvas class="img_canvas"></canvas>');
+    // }
+
+    function renderCanvasPhoto(img_src, $canvas) {
+		let img = new Image();
+		img.src = img_src;
+        // let canvas = $('#test-canvas')[0],
+        let canvas = $canvas[0];
+            context = canvas.getContext('2d');
+		img.onload = function() {
+			context.drawImage(img,0,0);
+		};
+	}
 
     function renderNearestDayPhotos($btn) {
         let currentDate = moment($(next_prev).attr(attr_curdate));
@@ -179,26 +225,18 @@ $(document).ready(function () {
 	
 	// var canvas, context;
 	
-	// function paintCanvas($paintedImg,e) {
-	// 	console.log('paint canvas');
-	// 	let x = e.offsetX,
-	// 		y = e.offsetY
-    //     ;
-    //     let canvas = $paintedImg[0];
-    //     let context = canvas.getContext('2d');
-	// 	context.fillStyle = "rgba(213,186,131,.05)";
-	// 	context.fillRect(x,y,30,30);
-	// }
+	function paintCanvas($paintedImg,e) {
+		console.log('paint canvas');
+		let x = e.offsetX,
+			y = e.offsetY
+        ;
+        let canvas = $paintedImg[0];
+        let context = canvas.getContext('2d');
+		context.fillStyle = "rgba(213,186,131,.05)";
+		context.fillRect(x,y,30,30);
+	}
 	
-	// function setTestCanvasImg() {
-	// 	let img = new Image();
-	// 	img.src = 'img/test.jpg';
-	// 	canvas = $('#test-canvas')[0];
-	// 	context = canvas.getContext('2d');
-	// 	img.onload = function() {
-	// 		context.drawImage(img,0,0);
-	// 	};
-	// }
+	
 	
 	// function pickTestColor(e) {
 	// 	let x = e.offsetX,
