@@ -13,6 +13,7 @@ $(document).ready(function () {
         // isLargeImg = true,
         ph_num_all = 0,
         ph_num_large = 0,
+        ph_num_navcam = 0,
         api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
     ;
 
@@ -98,6 +99,7 @@ $(document).ready(function () {
 
     function renderAjaxImg(data, date = '') {
         $('#photos_page').html('');
+        ph_num_navcam = 0;
         if (data.photos.length) {
 
             let ph = data.photos;
@@ -109,34 +111,36 @@ $(document).ready(function () {
             $(next_prev).last().show();
 
             for (i = 0; i < ph.length; i++) {
-                let img = new Image();
-                    img.src = ph[i].img_src;
-
-                if (drawingMode) {
-                    $('#photos_page').append('<canvas class="img_canvas" width="'+canvas_config.get('width')+'" height="'+canvas_config.get('height')+'"></canvas>');
-                    let canvas = $('.img_canvas').last()[0],
-                        context = canvas.getContext('2d');
-                    img.onload = function() {
-                        context.drawImage(img,0,0,parseInt(canvas_config.get('width')),parseInt(canvas_config.get('height')));
-                    };
-                } else {
-                    img.onload = function () {
-                        if (this.width < 1000) {
-                            isLargeImg = false;
-                        } else {
-                            isLargeImg = true;
-                            if(showOnlyLargePhotos) {
-                                renderPhoto(this.src);
+                if (ph[i].camera.name == "NAVCAM") {
+                    let img = new Image();
+                        img.src = ph[i].img_src;
+    
+                    if (drawingMode) {
+                        $('#photos_page').append('<canvas class="img_canvas" width="'+canvas_config.get('width')+'" height="'+canvas_config.get('height')+'"></canvas>');
+                        let canvas = $('.img_canvas').last()[0],
+                            context = canvas.getContext('2d');
+                        img.onload = function() {
+                            context.drawImage(img,0,0,parseInt(canvas_config.get('width')),parseInt(canvas_config.get('height')));
+                        };
+                    } else {
+                        img.onload = function () {
+                            if (this.width < 1000) {
+                                isLargeImg = false;
+                            } else {
+                                isLargeImg = true;
+                                if(showOnlyLargePhotos) {
+                                    renderPhoto(this.src);
+                                }
+                                ph_num_large++;
                             }
-                            ph_num_large++;
+                            $('.quantity_large').text(ph_num_large);
                         }
-                        $('.quantity_large').text(ph_num_large);
+                        if (!showOnlyLargePhotos) {
+                            renderPhoto(ph[i].img_src);
+                        }
                     }
-                    if (!showOnlyLargePhotos) {
-                        renderPhoto(ph[i].img_src);
-                    }
+                    ph_num_navcam++;
                 }
-
                 ph_num_all++;
             }
             if (drawingMode) {
@@ -158,6 +162,7 @@ $(document).ready(function () {
             }
 
             $('.quantity_total').text(ph_num_all);
+            $('.quantity_navcam').text(ph_num_navcam);
 
         } else {
             $(curdate).text(date);

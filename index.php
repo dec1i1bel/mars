@@ -22,7 +22,7 @@
         <h3 class="rover-sol">Суток пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
         <p></p>
-        <h2 class="rover-photos-title">Фото за <span class="value date"></span> (всего: <span class="value quantity_total"></span>, больших: <span class="value quantity_large"></span>)
+        <h2 class="rover-photos-title">Фото за <span class="value date"></span> (всего: <span class="value quantity_total"></span>, больших: <span class="value quantity_large"></span>, c навигационной камеры: <span class="value quantity_navcam"></span>)
         </h2>
         <div id="filters" class="js-filters">
             <div class="js-only-large">
@@ -39,6 +39,7 @@
             <div class="mx-2 py-3">на 1 день</div>
             <button class="btn-next-day btn btn-outline-success">Вперёд</button>
         </div>
+        <h3>Фото с навигационной камеры:</h3>
        <div id="photos_page" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-center"></div>
         <!-- <div id="photos_page"></div> -->
         <div class="btns_next-prev-date row justify-content-center">
