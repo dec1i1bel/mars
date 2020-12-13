@@ -22,6 +22,27 @@ $(document).ready(function () {
         ['height', '600']
     ])
 
+    $('.rover-name > .value').text(roverName);
+    
+    // клик по кнопке предыдущего / следующего дня
+    $('.btn-prev-day').each(function () {
+        $(this).click(function () {
+            renderNearestDayPhotos($(this));
+        })
+    });
+    $('.btn-next-day').each(function () {
+        $(this).click(function () {
+            renderNearestDayPhotos($(this));
+        })
+    });
+
+    $('.js-only-large').click(function () {
+        if ($(this).find('input[name="only-large"]').is(':checked')) {
+            showOnlyLargePhotos = true;
+        } else {
+            showOnlyLargePhotos = false;
+        }
+    })
 	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
@@ -46,18 +67,6 @@ $(document).ready(function () {
         }
     });
 
-    // клик по кнопке предыдущего / следующего дня
-    $('.btn-prev-day').each(function () {
-        $(this).click(function () {
-            renderNearestDayPhotos($(this));
-        })
-    });
-    $('.btn-next-day').each(function () {
-        $(this).click(function () {
-            renderNearestDayPhotos($(this));
-        })
-    });
-
     $('.js-only-large').find('input[name="only-large"]').click(function() {
         let activeDateTmpst = moment($(next_prev).attr(attr_curdate));
         let activeDate = activeDateTmpst.format('YYYY-MM-DD');
@@ -67,16 +76,6 @@ $(document).ready(function () {
                 renderAjaxImg(data_near, activeDate);
             }
         })
-    })
-
-    $('.rover-name > .value').text(roverName);
-
-    $('.js-only-large').click(function () {
-        if ($(this).find('input[name="only-large"]').is(':checked')) {
-            showOnlyLargePhotos = true;
-        } else {
-            showOnlyLargePhotos = false;
-        }
     })
 
     function renderAjaxImg(data, date = '') {
@@ -91,64 +90,19 @@ $(document).ready(function () {
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
-			// if(drawingMode) {
-			// 	for(i = 0; i < ph.length; i++) {
-			// 		let img = new Image();
-			// 		img.src = ph[i].img_src;
-			// 		img.onload = function() {
-			// 			$('#photos_page').append('<canvas class="canvas_photo" width="400" height="400"></canvas>');
-			// 			canvas = $('.canvas_photo').last()[0];
-			// 			context = canvas.getContext('2d');
-			// 			let j = i+1;
-			// 			context.drawImage(img,0,0,400,400);
-						
-					// 	$('.canvas_photo').last().mousemove(function(e) {
-					// 		paintCanvas(e);
-					// 	})
-				// 	}
-				// }
-                //				$('.canvas_photo').each(function() {
-                //					$(this).mousemove(function(e) {
-                ////						paintCanvas(e);
-                //						console.log('helllllllllllo');
-                //						let x = e.offsetX,
-                //							y = e.offsetY
-                //						;
-                //						context.fillStyle = "rgba(213,186,131,.05)";
-                //						context.fillRect(x,y,30,30);
-                //					})
-                //				})
-                            // } else {
             for (i = 0; i < ph.length; i++) {
                 let img = new Image();
                     img.src = ph[i].img_src;
 
                 if (drawingMode) {
-                    console.log('ph[i].img_src:');
-                    console.log(ph[i].img_src);
-                    // renderCanvas();
                     $('#photos_page').append('<canvas class="img_canvas" width="'+canvas_config.get('width')+'" height="'+canvas_config.get('height')+'"></canvas>');
                     let canvas = $('.img_canvas').last()[0],
                         context = canvas.getContext('2d');
-                    console.log('canvas:');
-                    console.log(canvas);
                     img.onload = function() {
                         context.drawImage(img,0,0,parseInt(canvas_config.get('width')),parseInt(canvas_config.get('height')));
                     };
-                    // $('.img_canvas').last()
-                    // $('.img_canvas').last(function () {
-                    //     console.log('$(this)[0]:');
-                    //     console.log($(this)[0]);
-                    //     renderCanvasPhoto (ph[i].img_src, $(this));
-                    // })
                 } else {
-                    // img = new Image();
-                    // img.src = ph[i].img_src;
-                    // console.log('img.src:');
-                    // console.log(img.src);
                     img.onload = function () {
-                        // console.log('this.src:');
-                        // console.log(this.src);
                         if (this.width < 1000) {
                             isLargeImg = false;
                         } else {
@@ -167,14 +121,25 @@ $(document).ready(function () {
 
                 ph_num_all++;
             }
+            if (drawingMode) {
+                $('.img_canvas').each(function () {
+                    $(this).mousemove(function (e) {
+                        console.log(e);
+                        if(e.target) {
+                            let x = e.offsetX,
+                                y = e.offsetY
+                            ;
+                            let canvas = $(this)[0];
+                            let context = canvas.getContext('2d');
+                            context.fillStyle = "rgba(213,186,131,0.02)";
+                            context.fillRect(x+100,y+100,100,100);
+                        }
+                    })
+                })
+            }
 
             $('.quantity_total').text(ph_num_all);
 
-            // $('.img_canvas').each(function () {
-            //     $(this).mousemove(function (e) {
-                    
-            //     })
-            // })
         } else {
             $(curdate).text(date);
             $('.quantity_total').text('нет');
@@ -185,31 +150,10 @@ $(document).ready(function () {
         }
     }
 
-    // $('.canvas_photo').each(function () {
-    //     $(this).mousemove(function(e) {
-    //         paintCanvas($(this), e);
-    //     })
-    // })
-
     function renderPhoto(img) {
         $('#photos_page').append('<div class="card-deck"><div class="card"><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a>');
     }
     
-    // function renderCanvas() {
-    //     $('#photos_page').append('<canvas class="img_canvas"></canvas>');
-    // }
-
-    function renderCanvasPhoto(img_src, $canvas) {
-		let img = new Image();
-		img.src = img_src;
-        // let canvas = $('#test-canvas')[0],
-        let canvas = $canvas[0];
-            context = canvas.getContext('2d');
-		img.onload = function() {
-			context.drawImage(img,0,0);
-		};
-	}
-
     function renderNearestDayPhotos($btn) {
         let currentDate = moment($(next_prev).attr(attr_curdate));
         let numday;
@@ -222,29 +166,4 @@ $(document).ready(function () {
             }
         })
     }
-	
-	// var canvas, context;
-	
-	function paintCanvas($paintedImg,e) {
-		console.log('paint canvas');
-		let x = e.offsetX,
-			y = e.offsetY
-        ;
-        let canvas = $paintedImg[0];
-        let context = canvas.getContext('2d');
-		context.fillStyle = "rgba(213,186,131,.05)";
-		context.fillRect(x,y,30,30);
-	}
-	
-	
-	
-	// function pickTestColor(e) {
-	// 	let x = e.offsetX,
-	// 		y = e.offsetY
-	// 	;
-	// 	let pixel = context.getImageData(x,y,1,1),
-	// 		data = pixel.data
-	// 	;
-	// 	console.log(data);
-	// }
 });
