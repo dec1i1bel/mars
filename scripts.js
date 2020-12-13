@@ -9,12 +9,11 @@ $(document).ready(function () {
         attr_curdate = 'current_date'
     ;
     var showOnlyLargePhotos = false,
-		drawingMode = true,
-        isLargeImg = true,
+		drawingMode = false,
+        // isLargeImg = true,
         ph_num_all = 0,
         ph_num_large = 0,
-        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886',
-        img
+        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
     ;
 
     var canvas_config = new Map([
@@ -43,6 +42,25 @@ $(document).ready(function () {
             showOnlyLargePhotos = false;
         }
     })
+
+    $('.js-only-large').find('input[name="only-large"]').click(function() {
+        requestCurrentPhotos();
+    })
+
+    $('.js-drawing-mode').click(function () {
+        if ($(this).find('input[name="drawing-mode"]').is(':checked')) {
+            drawingMode = true;
+            $('.js-only-large').hide();
+        } else {
+            drawingMode = false;
+            $('.js-only-large').show();
+            $('.js-only-large').find('input[name="only-large"]').prop('checked', false);
+        }
+    })
+
+    $('.js-drawing-mode').find('input[name="drawing-mode"]').click(function() {
+        requestCurrentPhotos();
+    })
 	
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key='+api_key,
@@ -67,7 +85,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.js-only-large').find('input[name="only-large"]').click(function() {
+    function requestCurrentPhotos() {
         let activeDateTmpst = moment($(next_prev).attr(attr_curdate));
         let activeDate = activeDateTmpst.format('YYYY-MM-DD');
         $.ajax({
@@ -76,7 +94,7 @@ $(document).ready(function () {
                 renderAjaxImg(data_near, activeDate);
             }
         })
-    })
+    }
 
     function renderAjaxImg(data, date = '') {
         $('#photos_page').html('');
@@ -129,9 +147,10 @@ $(document).ready(function () {
                             let x = e.offsetX,
                                 y = e.offsetY
                             ;
-                            let canvas = $(this)[0];
-                            let context = canvas.getContext('2d');
-                            context.fillStyle = "rgba(213,186,131,0.02)";
+                            let canvas = $(this)[0],
+                                context = canvas.getContext('2d')
+                            ;
+                            context.fillStyle = "rgba(213,186,131,0.025)";
                             context.fillRect(x+100,y+100,100,100);
                         }
                     })

@@ -27,7 +27,11 @@
         <div id="filters" class="js-filters">
             <div class="js-only-large">
                 <input type="checkbox" name="only-large">
-                <label class="form-check-label" for="only-large-photos">Только большие фото</label>
+                <label class="form-check-label" for="only-large">Только большие фото</label>
+            </div>
+            <div class="js-drawing-mode">
+                <input type="checkbox" name="drawing-mode">
+                <label class="form-check-label" for="drawing-mode">Режим рисования</label>
             </div>
         </div>
         <div class="btns_next-prev-date row justify-content-center" current_date="">
