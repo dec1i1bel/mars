@@ -28,6 +28,7 @@
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
             <div class="mx-2 py-3">на 1 день</div>
             <button class="btn-next-day btn btn-outline-success">Вперёд</button>
+            <div class="hide-btn" style="display: none;"></div>
         </div>
         <div id="photos_page" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 justify-content-center">
         </div>
@@ -35,6 +36,7 @@
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
             <div class="mx-2 py-3">на 1 день</div>
             <button class="btn-next-day btn btn-outline-success">Вперёд</button>
+            <div class="hide-btn" style="display: none;"></div>
         </div>
     </div>
 </body>

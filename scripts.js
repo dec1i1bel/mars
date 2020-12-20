@@ -92,7 +92,6 @@ $(document).ready(function () {
 
     function renderAjaxImg(data, date = '') {
         $('#photos_page').html('');
-        ph_num_navcam = 0;
         if (data.photos.length) {
 
             let ph = data.photos;
@@ -163,6 +162,16 @@ $(document).ready(function () {
             $(next_prev).attr(attr_curdate, date);
             $('#photos_page').html('');
             $(next_prev).last().hide();
+        }
+        let currentDate = $(next_prev).attr(attr_curdate);
+        console.log('currentDate:');
+        console.log(currentDate);
+        console.log('max_date:');
+        console.log(max_date);
+        if (max_date == currentDate) {
+            $('.hide-btn').show();
+        } else {
+            $('.hide-btn').hide();
         }
     }
 
