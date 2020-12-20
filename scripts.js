@@ -178,7 +178,7 @@ $(document).ready(function () {
     }
 
     function renderPhoto(img) {
-        $('#photos_page').append('<div class="image-container card-deck"><div class="card position-relative"><button type="button" class="btn-show-drawing btn btn-light position-absolute m-0">красить</button><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a></div><div class="card-popup w-100 h-100 overflow-hidden fixed-top bg-secondary bg-gradient" style="display:none"><div class="card-popup-content w-75 rounded-3 shadow-lg bg-white"><div class="btn-close-popup bg-secondary bg-gradient">&#10008;</div><img class="w-100" src="' + img + '" class="photo d-block w-100" alt="..."></div></div>');
+        $('#photos_page').append('<div class="image-container card-deck"><div class="card position-relative"><button type="button" class="btn-show-drawing btn btn-light position-absolute m-0">красить</button><a data-fancybox="gallery" href="' + img + '"><img src="' + img + '" class="photo d-block w-100" alt="..."></a></div><div class="card-popup w-100 h-100 overflow-hidden fixed-top bg-secondary bg-gradient" style="display:none"><div class="card-popup-content rounded-3 shadow-lg bg-white"><div class="btn-close-popup bg-secondary bg-gradient">&#10008;</div><img class="w-100" src="' + img + '" class="photo d-block w-100" alt="..."></div></div>');
     }
 
     function renderNearestDayPhotos($btn) {
