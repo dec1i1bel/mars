@@ -22,7 +22,7 @@
         <h3 class="rover-sol">Суток пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
         <p></p>
-        <h2 class="rover-photos-title">Фото за <span class="value date"></span>: <span class="value quantity_total"></span>
+        <h2 class="rover-photos-title"> Количество фото за <span class="value date"></span>: <span class="value quantity_total"></span>
         </h2>
         <div class="btns_next-prev-date row justify-content-center" current_date="">
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
