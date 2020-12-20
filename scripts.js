@@ -9,6 +9,7 @@ $(document).ready(function () {
         attr_curdate = 'current_date'
         ;
     var ph_num_all = 0,
+        max_date,
         api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
         ;
 
@@ -61,7 +62,7 @@ $(document).ready(function () {
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key=' + api_key,
         success: function (data) {
             console.log(data.photo_manifest);
-            let max_date = data.photo_manifest.max_date;
+            max_date = data.photo_manifest.max_date;
 
             $('.rover-sol > .value').text(data.photo_manifest.max_sol);
             $(cl_ph_num).text(data.photo_manifest.total_photos);
