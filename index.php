@@ -9,11 +9,11 @@
     <script src="libs/bootstrap-4.5.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="libs/fancybox3/dist/jquery.fancybox.min.js"></script>
     <script src="libs/moment.min.js"></script>
+    <script src="https://kit.fontawesome.com/689a977d1f.js" crossorigin="anonymous"></script>
     <script src="scripts.js"></script>
     <link rel="stylesheet" href="libs/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/fancybox3/dist/jquery.fancybox.min.css">
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
@@ -22,18 +22,8 @@
         <h3 class="rover-sol">Суток пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
         <p></p>
-        <h2 class="rover-photos-title">Фото за <span class="value date"></span> (всего: <span class="value quantity_total"></span>, больших: <span class="value quantity_large"></span>)
+        <h2 class="rover-photos-title">Фото за <span class="value date"></span>: <span class="value quantity_total"></span>
         </h2>
-        <div id="filters" class="js-filters">
-            <div class="js-only-large">
-                <input type="checkbox" name="only-large">
-                <label class="form-check-label" for="only-large">Только большие фото</label>
-            </div>
-            <div class="js-drawing-mode">
-                <input type="checkbox" name="drawing-mode">
-                <label class="form-check-label" for="drawing-mode">Режим рисования</label>
-            </div>
-        </div>
         <div class="btns_next-prev-date row justify-content-center" current_date="">
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
             <div class="mx-2 py-3">на 1 день</div>
