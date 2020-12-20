@@ -8,8 +8,7 @@ $(document).ready(function () {
         curdate = '.rover-photos-title > .date',
         attr_curdate = 'current_date'
         ;
-    var ph_num_all = 0,
-        max_date,
+    var max_date,
         api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
         ;
 
@@ -95,16 +94,15 @@ $(document).ready(function () {
         if (data.photos.length) {
 
             let ph = data.photos;
-            ph_num_all = 0;
-            ph_num_large = 0;
 
             $(curdate).text(date);
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
             for (i = 0; i < ph.length; i++) {
-                renderPhoto(ph[i].img_src);
-                ph_num_all++;
+                if (ph[i].camera.name == 'NAVCAM') {
+                    renderPhoto(ph[i].img_src);
+                }
             }
             $('.btn-show-drawing').each(function () {
                 $(this).click(function () {
@@ -154,8 +152,6 @@ $(document).ready(function () {
                     }
                 })
             })
-            $('.quantity_total').text(ph_num_all);
-
         } else {
             $(curdate).text(date);
             $('.quantity_total').text('нет');
