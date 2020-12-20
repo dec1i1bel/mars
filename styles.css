@@ -5,3 +5,19 @@ button {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+.card-popup-content {
+	margin-top: 100px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+.btn-close-popup {
+	color: white;
+    font-size: 20px;
+    width: 15px;
+    position: absolute;
+    top: -32px;
+	right: -20px;
+	height: 30px;
+	cursor: pointer;
+}
