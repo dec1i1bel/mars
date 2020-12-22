@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let rovers = ['curiosity', 'oportunity', 'spirit'],
+    let rovers = ['curiosity', 'opportunity', 'spirit'],
         rover = rovers[0],
         roverName = rover[0].toUpperCase() + rover.substring(1)
         ;
@@ -100,7 +100,10 @@ $(document).ready(function () {
             $(next_prev).last().show();
 
             for (i = 0; i < ph.length; i++) {
-                if (ph[i].camera.name == 'NAVCAM') {
+                if (
+					(ph[i].camera.name == 'NAVCAM') ||
+					(ph[i].camera.name == 'MAHLI')
+				) {
                     renderPhoto(ph[i].img_src);
                 }
             }
