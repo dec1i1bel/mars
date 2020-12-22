@@ -63,6 +63,8 @@ $(document).ready(function () {
             console.log(data.photo_manifest);
             max_date = data.photo_manifest.max_date;
 
+			$('.rover-launch_date > .value').text(data.photo_manifest.launch_date);
+			$('.rover-landing_date > .value').text(data.photo_manifest.landing_date);
             $('.rover-sol > .value').text(data.photo_manifest.max_sol);
             $(cl_ph_num).text(data.photo_manifest.total_photos);
             $(curdate).text(max_date);
@@ -118,14 +120,8 @@ $(document).ready(function () {
                     let img_canvas = new Image();
                     img_canvas.src = $(this).parents('.image-container').find('img.photo').attr('src');
 
-                    console.log('img_canvas.src:');
-                    console.log(img_canvas.src);
-
                     let canvas = $('.img_canvas').last()[0],
                         context = canvas.getContext('2d');
-
-                    console.log(canvas);
-                    console.log(context);
 
                     img_canvas.onload = function () {
                         context.drawImage(img_canvas, 0, 0, parseInt(canvas_config.get('width')), parseInt(canvas_config.get('height')));
@@ -163,10 +159,6 @@ $(document).ready(function () {
             $(next_prev).last().hide();
         }
         let currentDate = $(next_prev).attr(attr_curdate);
-        console.log('currentDate:');
-        console.log(currentDate);
-        console.log('max_date:');
-        console.log(max_date);
         if (max_date == currentDate) {
             $('.hide-btn').show();
         } else {

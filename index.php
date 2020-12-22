@@ -19,7 +19,9 @@
 <body>
     <div class="container">
         <h1 class="rover-name">Марсоход: <span class="value"></span></h1>
-        <h3 class="rover-sol">Суток пребывания на планете: <span class="value"></span></h3>
+        <h3 class="rover-launch_date">Дата отправки с Земли: <span class="value"></span></h3>
+        <h3 class="rover-landing_date">Дата приземления на Марсе: <span class="value"></span></h3>
+        <h3 class="rover-sol">Марсианских суток (по 25 часов) пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
         <p></p>
         <h2 class="rover-photos-title"> Фото за <span class="value date"></span>
