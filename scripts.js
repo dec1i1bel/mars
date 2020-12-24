@@ -6,6 +6,8 @@ $(document).ready(function () {
     let next_prev = '.btns_next-prev-date',
         cl_ph_num = '.rover-photos-number > .value',
         curdate = '.rover-photos-title > .date',
+		launch_date = '.rover-launch_date > .value',
+		landing_date = '.rover-landing_date > .value',
         attr_curdate = 'current_date'
         ;
     var max_date,
@@ -16,7 +18,7 @@ $(document).ready(function () {
         ['width', '600'],
         ['height', '600']
     ]);
-
+	
     $('.rover-name > .value').text(roverName);
 
     $('.btn-prev-day').each(function () {
@@ -63,8 +65,8 @@ $(document).ready(function () {
             console.log(data.photo_manifest);
             max_date = data.photo_manifest.max_date;
 
-			$('.rover-launch_date > .value').text(data.photo_manifest.launch_date);
-			$('.rover-landing_date > .value').text(data.photo_manifest.landing_date);
+			$(launch_date).text(data.photo_manifest.launch_date);
+			$(landing_date).text(data.photo_manifest.landing_date);
             $('.rover-sol > .value').text(data.photo_manifest.max_sol);
             $(cl_ph_num).text(data.photo_manifest.total_photos);
             $(curdate).text(max_date);

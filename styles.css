@@ -44,3 +44,8 @@ button {
     margin-right: -123px;
     top: 0;
 }
+@media all and (max-width: 1000px) {
+	.btn-show-drawing {
+		display: none;
+	}
+}

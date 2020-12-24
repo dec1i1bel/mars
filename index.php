@@ -10,10 +10,11 @@
     <script src="libs/fancybox3/dist/jquery.fancybox.min.js"></script>
     <script src="libs/moment.min.js"></script>
     <script src="https://kit.fontawesome.com/689a977d1f.js" crossorigin="anonymous"></script>
-    <script src="scripts.js"></script>
+    <script src="libs/add-to-homescreen/style/addtohomescreen.css?v=3434"></script>
+    <script src="scripts.js?v=4545"></script>
     <link rel="stylesheet" href="libs/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/fancybox3/dist/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=787">
 </head>
 
 <body>
@@ -21,7 +22,7 @@
         <h1 class="rover-name">Марсоход: <span class="value"></span></h1>
         <h3 class="rover-launch_date">Дата отправки с Земли: <span class="value"></span></h3>
         <h3 class="rover-landing_date">Дата приземления на Марсе: <span class="value"></span></h3>
-        <h3 class="rover-sol">Марсианских суток (по 25 часов) пребывания на планете: <span class="value"></span></h3>
+        <h3 class="rover-sol">Марсианских суток пребывания на планете: <span class="value"></span></h3>
         <h3 class="rover-photos-number">Итого снято фотографий: <span class="value"></span></h3>
         <p></p>
         <h2 class="rover-photos-title"> Фото за <span class="value date"></span>
