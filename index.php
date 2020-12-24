@@ -10,7 +10,6 @@
     <script src="libs/fancybox3/dist/jquery.fancybox.min.js"></script>
     <script src="libs/moment.min.js"></script>
     <script src="https://kit.fontawesome.com/689a977d1f.js" crossorigin="anonymous"></script>
-    <script src="libs/add-to-homescreen/style/addtohomescreen.css?v=3434"></script>
     <script src="scripts.js?v=4545"></script>
     <link rel="stylesheet" href="libs/bootstrap-4.5.3-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/fancybox3/dist/jquery.fancybox.min.css">
