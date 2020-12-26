@@ -21,6 +21,11 @@ $(document).ready(function () {
 	
     $('.rover-name > .value').text(roverName);
 
+	$('.send-date').click(function() {
+		let date = $(this).parents('.choose-date').find('input[type=text]').val();
+		renderCustomDatePhotos(date);
+	})
+	
     $('.btn-prev-day').each(function () {
         $(this).click(function () {
             renderNearestDayPhotos($(this));
@@ -184,4 +189,22 @@ $(document).ready(function () {
             }
         })
     }
+	
+	function renderCustomDatePhotos(date) {
+		date = moment(date);
+		let date_formatted = date.format('YYYY-MM-DD');
+		
+		$.ajax({
+            url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + date_formatted + '&api_key=' + api_key,
+            success: function (data) {
+                renderAjaxImg(data, date_formatted);
+            }
+        })
+	}
+	
+	$("#datepicker" ).datepicker({
+		changeMonth: true,
+		changeYear: true,
+		dateFormat: "yy-mm-dd"
+	});
 });
