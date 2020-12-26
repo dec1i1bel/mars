@@ -104,7 +104,7 @@ $(document).ready(function () {
 
             let ph = data.photos;
 
-            $(curdate).text(date);
+            $(curdate).text(date); 
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
