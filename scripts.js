@@ -1,11 +1,13 @@
 $(document).ready(function () {
-    let rovers = ['curiosity', 'oportunity', 'spirit'],
+    let rovers = ['curiosity', 'opportunity', 'spirit'],
         rover = rovers[0],
         roverName = rover[0].toUpperCase() + rover.substring(1)
         ;
     let next_prev = '.btns_next-prev-date',
         cl_ph_num = '.rover-photos-number > .value',
         curdate = '.rover-photos-title > .date',
+		launch_date = '.rover-launch_date > .value',
+		landing_date = '.rover-landing_date > .value',
         attr_curdate = 'current_date'
         ;
     var max_date,
@@ -16,9 +18,14 @@ $(document).ready(function () {
         ['width', '600'],
         ['height', '600']
     ]);
-
+	
     $('.rover-name > .value').text(roverName);
 
+	$('.send-date').click(function() {
+		let date = $(this).parents('.choose-date').find('input[type=text]').val();
+		renderCustomDatePhotos(date);
+	})
+	
     $('.btn-prev-day').each(function () {
         $(this).click(function () {
             renderNearestDayPhotos($(this));
@@ -63,6 +70,8 @@ $(document).ready(function () {
             console.log(data.photo_manifest);
             max_date = data.photo_manifest.max_date;
 
+			$(launch_date).text(data.photo_manifest.launch_date);
+			$(landing_date).text(data.photo_manifest.landing_date);
             $('.rover-sol > .value').text(data.photo_manifest.max_sol);
             $(cl_ph_num).text(data.photo_manifest.total_photos);
             $(curdate).text(max_date);
@@ -95,12 +104,15 @@ $(document).ready(function () {
 
             let ph = data.photos;
 
-            $(curdate).text(date);
+            $(curdate).text(date); 
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
             for (i = 0; i < ph.length; i++) {
-                if (ph[i].camera.name == 'NAVCAM') {
+                if (
+					(ph[i].camera.name == 'NAVCAM') ||
+					(ph[i].camera.name == 'MAHLI')
+				) {
                     renderPhoto(ph[i].img_src);
                 }
             }
@@ -115,14 +127,8 @@ $(document).ready(function () {
                     let img_canvas = new Image();
                     img_canvas.src = $(this).parents('.image-container').find('img.photo').attr('src');
 
-                    console.log('img_canvas.src:');
-                    console.log(img_canvas.src);
-
                     let canvas = $('.img_canvas').last()[0],
                         context = canvas.getContext('2d');
-
-                    console.log(canvas);
-                    console.log(context);
 
                     img_canvas.onload = function () {
                         context.drawImage(img_canvas, 0, 0, parseInt(canvas_config.get('width')), parseInt(canvas_config.get('height')));
@@ -160,10 +166,6 @@ $(document).ready(function () {
             $(next_prev).last().hide();
         }
         let currentDate = $(next_prev).attr(attr_curdate);
-        console.log('currentDate:');
-        console.log(currentDate);
-        console.log('max_date:');
-        console.log(max_date);
         if (max_date == currentDate) {
             $('.hide-btn').show();
         } else {
@@ -187,4 +189,22 @@ $(document).ready(function () {
             }
         })
     }
+	
+	function renderCustomDatePhotos(date) {
+		date = moment(date);
+		let date_formatted = date.format('YYYY-MM-DD');
+		
+		$.ajax({
+            url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + date_formatted + '&api_key=' + api_key,
+            success: function (data) {
+                renderAjaxImg(data, date_formatted);
+            }
+        })
+	}
+	
+	$("#datepicker" ).datepicker({
+		changeMonth: true,
+		changeYear: true,
+		dateFormat: "yy-mm-dd"
+	});
 });
