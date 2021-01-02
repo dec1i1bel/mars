@@ -1,0 +1,16 @@
+{
+    "background_color": "purple",
+    "description": "Photos from NASA's Mars crawlers (open NASA API)",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "favicon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "name": "Photos of Mars",
+    "short_name": "Mars photos",
+    "start_url": "/index.html"
+  }
+  
