@@ -21,10 +21,12 @@ $(document).ready(function () {
 	
     $('.rover-name > .value').text(roverName);
 
-	$('.send-date').click(function() {
-		let date = $(this).parents('.choose-date').find('input[type=text]').val();
-		renderCustomDatePhotos(date);
-	})
+    $('.send-date').each(function () {
+        $(this).click(function() {
+            let date = $(this).parents('.choose-date').find('input[type=text]').val();
+            renderCustomDatePhotos(date);
+        })
+    })
 	
     $('.btn-prev-day').each(function () {
         $(this).click(function () {
@@ -202,7 +204,7 @@ $(document).ready(function () {
         })
 	}
 	
-	$("#datepicker" ).datepicker({
+	$("#datepicker").datepicker({
 		changeMonth: true,
 		changeYear: true,
 		dateFormat: "yy-mm-dd"

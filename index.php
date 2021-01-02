@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="styles.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <script src="libs/moment.min.js"></script>
     <script src="libs/jquery-ui-1.12.1/jquery-ui.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <script src="https://kit.fontawesome.com/689a977d1f.js" crossorigin="anonymous"></script>
     <script src="scripts.js"></script>
 </head>
@@ -30,7 +30,11 @@
         <p></p>
         <h2 class="rover-photos-title"> Фото за <span class="value date"></span>
         </h2>
-        <div class="choose-date">Выбрать дату: <input type="text" id="datepicker"></span> <button type="button" class="send-date btn btn-success btn-sm">показать</button>
+        <div class="choose-date">
+            <span>Выбрать дату: </span>
+            <input type="text" id="datepicker">
+            <button type="button" class="send-date btn btn-success btn-sm">показать</button>
+        </div>
         <div class="btns_next-prev-date row justify-content-center" current_date="">
             <button class="btn-prev-day btn btn-outline-success">Назад</button>
             <div class="mx-2 py-3">на 1 день</div>
