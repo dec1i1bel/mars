@@ -1,45 +1,46 @@
-$(document).ready(function () {
+$(document).ready(function() {
     let rovers = ['curiosity', 'opportunity', 'spirit'],
         rover = rovers[0],
-        roverName = rover[0].toUpperCase() + rover.substring(1)
-        ;
+        roverName = rover[0].toUpperCase() + rover.substring(1);
     let next_prev = '.btns_next-prev-date',
         cl_ph_num = '.rover-photos-number > .value',
         curdate = '.rover-photos-title > .date',
-		launch_date = '.rover-launch_date > .value',
-		landing_date = '.rover-landing_date > .value',
-        attr_curdate = 'current_date'
-        ;
+        launch_date = '.rover-launch_date > .value',
+        landing_date = '.rover-landing_date > .value',
+        attr_curdate = 'current_date';
     var max_date,
-        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886'
-        ;
+        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886';
 
     var canvas_config = new Map([
         ['width', '600'],
         ['height', '600']
     ]);
-	
+
+    var deferredPrompt;
+    var addBtn = document.querySelector('.add-button');
+    addBtn.style.display = 'none';
+
     $('.rover-name > .value').text(roverName);
 
-    $('.send-date').each(function () {
+    $('.send-date').each(function() {
         $(this).click(function() {
             let date = $(this).parents('.choose-date').find('input[type=text]').val();
             renderCustomDatePhotos(date);
         })
     })
-	
-    $('.btn-prev-day').each(function () {
-        $(this).click(function () {
+
+    $('.btn-prev-day').each(function() {
+        $(this).click(function() {
             renderNearestDayPhotos($(this));
         })
     });
-    $('.btn-next-day').each(function () {
-        $(this).click(function () {
+    $('.btn-next-day').each(function() {
+        $(this).click(function() {
             renderNearestDayPhotos($(this));
         })
     });
 
-    $('.js-only-large').click(function () {
+    $('.js-only-large').click(function() {
         if ($(this).find('input[name="only-large"]').is(':checked')) {
             showOnlyLargePhotos = true;
         } else {
@@ -47,11 +48,11 @@ $(document).ready(function () {
         }
     })
 
-    $('.js-only-large').find('input[name="only-large"]').click(function () {
+    $('.js-only-large').find('input[name="only-large"]').click(function() {
         requestCurrentPhotos();
     })
 
-    $('.js-drawing-mode').click(function () {
+    $('.js-drawing-mode').click(function() {
         if ($(this).find('input[name="drawing-mode"]').is(':checked')) {
             drawingMode = true;
             $('.js-only-large').hide();
@@ -62,18 +63,18 @@ $(document).ready(function () {
         }
     })
 
-    $('.js-drawing-mode').find('input[name="drawing-mode"]').click(function () {
+    $('.js-drawing-mode').find('input[name="drawing-mode"]').click(function() {
         requestCurrentPhotos();
     })
 
     $.ajax({
         url: 'https://api.nasa.gov/mars-photos/api/v1/manifests/' + rover + '?api_key=' + api_key,
-        success: function (data) {
+        success: function(data) {
             console.log(data.photo_manifest);
             max_date = data.photo_manifest.max_date;
 
-			$(launch_date).text(data.photo_manifest.launch_date);
-			$(landing_date).text(data.photo_manifest.landing_date);
+            $(launch_date).text(data.photo_manifest.launch_date);
+            $(landing_date).text(data.photo_manifest.landing_date);
             $('.rover-sol > .value').text(data.photo_manifest.max_sol);
             $(cl_ph_num).text(data.photo_manifest.total_photos);
             $(curdate).text(max_date);
@@ -81,7 +82,7 @@ $(document).ready(function () {
 
             $.ajax({
                 url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + max_date + '&api_key=' + api_key,
-                success: function (data_latest) {
+                success: function(data_latest) {
                     console.log(data_latest.photos);
                     renderAjaxImg(data_latest, max_date);
                 }
@@ -94,7 +95,7 @@ $(document).ready(function () {
         let activeDate = activeDateTmpst.format('YYYY-MM-DD');
         $.ajax({
             url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + activeDate + '&api_key=' + api_key,
-            success: function (data_near) {
+            success: function(data_near) {
                 renderAjaxImg(data_near, activeDate);
             }
         })
@@ -106,20 +107,20 @@ $(document).ready(function () {
 
             let ph = data.photos;
 
-            $(curdate).text(date); 
+            $(curdate).text(date);
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
             for (i = 0; i < ph.length; i++) {
                 if (
-					(ph[i].camera.name == 'NAVCAM') ||
-					(ph[i].camera.name == 'MAHLI')
-				) {
+                    (ph[i].camera.name == 'NAVCAM') ||
+                    (ph[i].camera.name == 'MAHLI')
+                ) {
                     renderPhoto(ph[i].img_src);
                 }
             }
-            $('.btn-show-drawing').each(function () {
-                $(this).click(function () {
+            $('.btn-show-drawing').each(function() {
+                $(this).click(function() {
                     $(this).parents('.image-container').find('.card-popup').show();
                     $(this).parents('.image-container').find('.popup-img-canvas').addClass('active_canvas');
                     $(this).parents('.image-container').find('.btn-close-popup').addClass('close-active-canvas');
@@ -132,27 +133,25 @@ $(document).ready(function () {
                     let canvas = $('.img_canvas').last()[0],
                         context = canvas.getContext('2d');
 
-                    img_canvas.onload = function () {
+                    img_canvas.onload = function() {
                         context.drawImage(img_canvas, 0, 0, parseInt(canvas_config.get('width')), parseInt(canvas_config.get('height')));
                     };
 
-                    $('.active_canvas .img_canvas').mousemove(function (e) {
+                    $('.active_canvas .img_canvas').mousemove(function(e) {
                         if (e.target) {
                             let x = e.offsetX,
-                                y = e.offsetY
-                            ;
+                                y = e.offsetY;
                             let canvas = $(this)[0],
-                                context = canvas.getContext('2d')
-                            ;
+                                context = canvas.getContext('2d');
                             context.fillStyle = "rgba(213,186,131,0.025)";
-                            context.fillRect(x-50, y-50, 100, 100);
+                            context.fillRect(x - 50, y - 50, 100, 100);
                         }
                     })
                 })
             })
-            $('.btn-close-popup').each(function () {
-                $(this).click(function () {
-                    if($(this).hasClass('close-active-canvas')) {
+            $('.btn-close-popup').each(function() {
+                $(this).click(function() {
+                    if ($(this).hasClass('close-active-canvas')) {
                         $(this).parents('.image-container').find('.popup-img-canvas').removeClass('active_canvas');
                         $(this).parents('.image-container').find('.img_canvas').remove();
                         $(this).removeClass('close-active-canvas');
@@ -186,61 +185,49 @@ $(document).ready(function () {
         let nearDate = currentDate.add(numday, 'day').format('YYYY-MM-DD');
         $.ajax({
             url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + nearDate + '&api_key=' + api_key,
-            success: function (data_near) {
+            success: function(data_near) {
                 renderAjaxImg(data_near, nearDate);
             }
         })
     }
-	
-	function renderCustomDatePhotos(date) {
-		date = moment(date);
-		let date_formatted = date.format('YYYY-MM-DD');
-		
-		$.ajax({
+
+    function renderCustomDatePhotos(date) {
+        date = moment(date);
+        let date_formatted = date.format('YYYY-MM-DD');
+
+        $.ajax({
             url: 'https://api.nasa.gov/mars-photos/api/v1/rovers/' + rover + '/photos?earth_date=' + date_formatted + '&api_key=' + api_key,
-            success: function (data) {
+            success: function(data) {
                 renderAjaxImg(data, date_formatted);
             }
         })
-	}
-	
-	$("#datepicker").datepicker({
-		changeMonth: true,
-		changeYear: true,
-		dateFormat: "yy-mm-dd"
-	});
-});
+    }
 
-// Register service worker to control making site work offline
+    $("#datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd"
+    });
 
-if('serviceWorker' in navigator) {
-    navigator.serviceWorker
-        .register('/sw.js')
-        .then(function() { console.log('Service Worker Registered'); });
-  }
-  
-  // Code to handle install prompt on desktop
-  
-  var deferredPrompt;
-  var addBtn = document.querySelector('.add-button');
-  addBtn.style.display = 'none';
-  
-  window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent Chrome 67 and earlier from automatically showing the prompt
-    e.preventDefault();
-    // Stash the event so it can be triggered later.
-    deferredPrompt = e;
-    // Update UI to notify the user they can add to home screen
-    addBtn.style.display = 'block';
-  
-    addBtn.addEventListener('click', (e) => {
-      // hide our user interface that shows our A2HS button
-      addBtn.style.display = 'none';
-      // Show the prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      deferredPrompt.userChoice.then((choiceResult) => {
-          deferredPrompt = null;
+    // установка на домашний экран пк / телефона
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('/sw.js')
+            .then(function() { console.log('Service Worker Registered'); });
+    }
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        addBtn.style.display = 'block';
+    
+        addBtn.addEventListener('click', (e) => {
+            addBtn.style.display = 'none';
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                deferredPrompt = null;
+            });
         });
     });
-  });
+});

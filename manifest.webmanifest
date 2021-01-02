@@ -1,7 +1,7 @@
 {
-    "background_color": "purple",
+    "background_color": "orange",
     "description": "Photos from NASA's Mars crawlers (open NASA API)",
-    "display": "standalone",
+    "display": "fullscreen",
     "icons": [
       {
         "src": "favicon.png",
