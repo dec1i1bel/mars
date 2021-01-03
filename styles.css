@@ -48,8 +48,8 @@ button {
 .send-date {
 	margin-top: 6px !important;
 }
-@media all and (max-width: 1000px) {
+@media (max-width: 1000px) {
 	.btn-show-drawing {
-		display: none;
+		display: none !important;
 	}
 }
