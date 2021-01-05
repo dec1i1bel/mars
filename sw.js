@@ -2,11 +2,11 @@ self.addEventListener('install', function(e) {
     e.waitUntil(
         caches.open('mars-photos').then(function(cache) {
             return cache.addAll([
-                '/',
-                '/index.html',
-                '/scripts.js',
-                '/styles.css',
-                '/libs/'
+                '/mars/',
+                '/mars/index.html',
+                '/mars/scripts.js',
+                '/mars/styles.css',
+                '/mars/libs/'
             ]);
         })
     );

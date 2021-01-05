@@ -111,11 +111,8 @@ $(document).ready(function() {
             $(next_prev).attr(attr_curdate, date);
             $(next_prev).last().show();
 
-            for (i = ph.length-1; i >= 0 ; i--) {
-                if (
-                    (ph[i].camera.name == 'NAVCAM') ||
-                    (ph[i].camera.name == 'MAHLI')
-                ) {
+            for (i = 0; i < ph.length ; i++) {
+                if (ph[i].camera.name == 'NAVCAM') {
                     renderPhoto(ph[i].img_src);
                 }
             }
