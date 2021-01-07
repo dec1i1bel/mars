@@ -8,8 +8,7 @@ $(document).ready(function() {
         launch_date = '.rover-launch_date > .value',
         landing_date = '.rover-landing_date > .value',
         attr_curdate = 'current_date';
-    var max_date,
-        api_key = 'tHmV7JS4rx9Jm4uXHtMs9rEbCvQOCLSfnjPus886';
+    var max_date;
 
     var canvas_config = new Map([
         ['width', '600'],
