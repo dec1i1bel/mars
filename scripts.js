@@ -2,27 +2,30 @@ $(document).ready(function() {
     let rovers = ['curiosity', 'opportunity', 'spirit'],
         rover = rovers[0],
         roverName = rover[0].toUpperCase() + rover.substring(1);
+
     let next_prev = '.btns_next-prev-date',
         cl_ph_num = '.rover-photos-number > .value',
         curdate = '.rover-photos-title > .date',
         launch_date = '.rover-launch_date > .value',
         landing_date = '.rover-landing_date > .value',
         attr_curdate = 'current_date';
-    var max_date;
 
-    var canvas_config = new Map([
-        ['width', '600'],
-        ['height', '600']
-    ]);
+    var max_date,
+        canvas_config = new Map([
+            ['width', '600'],
+            ['height', '600']
+        ]),
+        deferredPrompt,
+        addBtn = document.querySelector('.add-button'),
+        main_spinner = '.main-spinner';
 
-    var deferredPrompt;
-    var addBtn = document.querySelector('.add-button');
     addBtn.style.display = 'none';
 
     $('.rover-name > .value').text(roverName);
 
     $('.send-date').each(function() {
         $(this).click(function() {
+            $(main_spinner).show();
             let date = $(this).parents('.choose-date').find('input[type=text]').val();
             renderCustomDatePhotos(date);
         })
@@ -30,11 +33,13 @@ $(document).ready(function() {
 
     $('.btn-prev-day').each(function() {
         $(this).click(function() {
+            $(main_spinner).show();
             renderNearestDayPhotos($(this));
         })
     });
     $('.btn-next-day').each(function() {
         $(this).click(function() {
+            $(main_spinner).show();
             renderNearestDayPhotos($(this));
         })
     });
@@ -89,8 +94,6 @@ $(document).ready(function() {
         }
     });
 	
-//	$('.main-spinner').hide();
-
     function requestCurrentPhotos() {
         let activeDateTmpst = moment($(next_prev).attr(attr_curdate));
         let activeDate = activeDateTmpst.format('YYYY-MM-DD');
@@ -170,6 +173,7 @@ $(document).ready(function() {
         } else {
             $('.hide-btn').hide();
         }
+        $(main_spinner).hide();
     }
 
     function renderPhoto(img) {
@@ -207,7 +211,7 @@ $(document).ready(function() {
         dateFormat: "yy-mm-dd"
     });
 
-    // установка на домашний экран пк / телефона
+    // PWA-установка на домашний экран пк / телефона
 
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
@@ -229,7 +233,3 @@ $(document).ready(function() {
         });
     });
 });
-
-window.addEventListener('load', function(e) {
-	$('.main-spinner').hide();
-})
