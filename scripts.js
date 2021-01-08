@@ -88,6 +88,8 @@ $(document).ready(function() {
             });
         }
     });
+	
+//	$('.main-spinner').hide();
 
     function requestCurrentPhotos() {
         let activeDateTmpst = moment($(next_prev).attr(attr_curdate));
@@ -227,3 +229,7 @@ $(document).ready(function() {
         });
     });
 });
+
+window.addEventListener('load', function(e) {
+	$('.main-spinner').hide();
+})
