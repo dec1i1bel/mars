@@ -116,9 +116,7 @@ $(document).ready(function() {
             $(next_prev).last().show();
 
             for (i = 0; i < ph.length ; i++) {
-                if (ph[i].camera.name == 'NAVCAM') {
                     renderPhoto(ph[i].img_src);
-                }
             }
             $('.btn-show-drawing').each(function() {
                 $(this).click(function() {
