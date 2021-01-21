@@ -213,7 +213,7 @@ $(document).ready(function() {
 
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker
-            .register('/sw.js')
+            .register('/mars/sw.js')
             .then(function() { console.log('Service Worker Registered'); });
     }
     
